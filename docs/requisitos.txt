@@ -1,0 +1,86 @@
+Documento de Requisitos - Sistema de Login
+Autor: Érico Gaudencio da Silva | Versão 1.0 | 06/11/2026
+1. Objetivo
+Permitir o cadastro e a autenticação segura de usuários por meio de uma API de backend independente, que possa ser consumida futuramente por qualquer cliente (frontend web, aplicativo móvel ou outros sistemas). Nesta versão, o projeto é somente uma API, sem interface.
+2. Tecnologias
+• Linguagem: Python
+• Framework: FastAPI
+• Banco de dados: MySQL (remoto)
+• Acesso ao banco: SQLAlchemy (a confirmar)
+• Autenticação: JWT (token de acesso) com refresh token
+• Testes: Pytest
+• Controle de versão: Git e GitHub
+• Deploy: backend no Render e MySQL remoto com provedor a definir
+3. Escopo
+3.1 Essencial (versão 1)
+• Cadastro de usuário com e-mail único e senha armazenada com hash.
+• Login com e-mail e senha, retornando token JWT de acesso e refresh token.
+• Rota protegida que retorna os dados do usuário logado.
+• Renovação do acesso por meio do refresh token.
+• Logout, com invalidação do refresh token.
+• Validações e mensagens de erro claras.
+• Testes automatizados.
+• Deploy do backend e do banco MySQL remoto.
+3.2 Evolução futura (fora da versão 1)
+• Troca de senha para usuário já logado.
+• Recuperação de senha por e-mail.
+• Verificação de e-mail no cadastro.
+• Perfis de acesso (usuário comum e administrador).
+• Bloqueio temporário após várias tentativas de login erradas.
+• Login social (Google, GitHub) e autenticação em dois fatores.
+• Registro de atividades (auditoria).
+• Frontend com telas de login e cadastro.
+4. Entidades
+4.1 Usuário
+Representa a pessoa cadastrada no sistema. Campos sugeridos (a validar): identificador, nome, e-mail, senha com hash, indicador de conta ativa e data de criação.
+4.2 Refresh Token
+Representa a permissão de renovação de acesso emitida no login. Campos sugeridos (a validar): identificador, usuário dono do token, data de validade, indicador de token revogado e data de criação.
+5. Relacionamentos
+• Um Usuário pode possuir vários Refresh Tokens (por exemplo, um por dispositivo ou sessão).
+• Cada Refresh Token pertence a exatamente um Usuário.
+6. Regras de Negócio
+• O e-mail do usuário deve ser único no sistema.
+• O e-mail deve ter formato válido.
+• A senha nunca é armazenada em texto puro; apenas o hash é gravado.
+• A senha nunca é devolvida em nenhuma resposta da API.
+• Login com credenciais inválidas retorna erro genérico, sem revelar se o e-mail existe ou se a senha está errada.
+• Somente contas ativas podem fazer login.
+• Um refresh token revogado ou expirado não pode ser usado para renovar o acesso.
+• O logout revoga o refresh token informado.
+• Rotas protegidas exigem token de acesso válido e não expirado.
+Sugestões a validar
+• Validade do token de acesso: curta (por exemplo, 15 minutos).
+• Validade do refresh token: mais longa (por exemplo, 7 dias).
+• Política de senha: mínimo de 8 caracteres, com pelo menos uma letra e um número.
+• Algoritmo de hash de senha: um algoritmo seguro e reconhecido pelo mercado (por exemplo, bcrypt ou argon2).
+7. Endpoints
+Nomes e caminhos sugeridos (a validar):
+• Cadastro de usuário: cria a conta e retorna os dados públicos do usuário.
+• Login: valida as credenciais e retorna o token de acesso e o refresh token.
+• Usuário logado: rota protegida que retorna os dados do usuário autenticado.
+• Renovação de acesso: recebe o refresh token e retorna um novo token de acesso.
+• Logout: revoga o refresh token informado.
+• Verificação de saúde (health check): informa se a API e o banco estão disponíveis.
+8. Segurança
+• Toda comunicação em produção deve usar HTTPS.
+• A chave de assinatura dos JWT, a conexão com o banco e os tempos de validade ficam em variáveis de ambiente, nunca no repositório.
+• CORS restritivo, aceitando apenas origens autorizadas.
+• Mensagens de erro não devem expor detalhes internos do sistema.
+• Bancos de desenvolvimento e produção separados.
+9. Testes
+• Cadastro: sucesso, e-mail duplicado, e-mail inválido e senha fraca.
+• Login: sucesso, senha errada, e-mail inexistente e conta inativa.
+• Rota protegida: acesso com token válido, sem token, com token inválido e com token expirado.
+• Renovação: sucesso, refresh token expirado e refresh token revogado.
+• Logout: revogação do refresh token e impossibilidade de reutilizá-lo.
+• Opcional: execução automática dos testes a cada envio ao GitHub, com publicação apenas se todos passarem.
+10. Deploy
+• Backend: Render.
+• Banco de dados: MySQL remoto gerenciado, provedor a definir.
+• Observação: no plano gratuito do Render, o serviço pode demorar na primeira requisição após um período sem uso.
+• O esquema do banco deve evoluir por migrações versionadas, e não por criação automática de tabelas.
+11. Pontos em Aberto
+• Confirmar o uso de SQLAlchemy.
+• Definir os campos finais das entidades.
+• Validar os tempos de validade dos tokens e a política de senha.
+• Definir o provedor do MySQL remoto, conferindo o plano gratuito vigente no site oficial.

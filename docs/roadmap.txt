@@ -1,0 +1,15 @@
+Roadmap - Sistema de Login
+Autor: Érico Gaudencio da Silva | Versão 1.0 | 06/11/2026
+API de autenticação independente, desenvolvida com Python, FastAPI, SQLAlchemy, MySQL e JWT, com testes automatizados e deploy no Render. Este roadmap segue o Documento de Requisitos - Sistema de Login e cobre apenas o escopo essencial (versão 1).
+Sprints
+Sprint 1: Planejamento e base do projeto. Documento de requisitos, modelagem do banco (Usuário e Refresh Token) e criação do repositório no GitHub.
+Sprint 2: Estrutura do backend. Projeto FastAPI, SQLAlchemy, conexão com o MySQL, variáveis de ambiente, CORS, arquitetura em camadas e migrações versionadas do banco.
+Sprint 3: Cadastro de usuários. Entidade Usuário, e-mail único, validações, política de senha, hash de senha e testes do cadastro.
+Sprint 4: Login com JWT. Validação de credenciais, emissão do token de acesso, erro genérico para credenciais inválidas, bloqueio de contas inativas e testes do login.
+Sprint 5: Rota protegida. Verificação do token de acesso, rota que retorna o usuário logado e testes com token válido, ausente, inválido e expirado.
+Sprint 6: Refresh token. Entidade Refresh Token, emissão no login, renovação do acesso e testes com token válido, expirado e revogado.
+Sprint 7: Logout. Revogação do refresh token, impossibilidade de reutilizá-lo e testes do logout.
+Sprint 8: Segurança, qualidade e refatoração. Revisão das regras de segurança, CORS restritivo, tratamento padronizado de erros, rota de verificação de saúde, revisão da cobertura de testes e README do projeto.
+Sprint 9: Deploy. Definição do provedor do MySQL remoto, publicação do backend no Render, variáveis de ambiente em produção, migrações no banco remoto, testes finais em produção e, opcionalmente, execução automática dos testes a cada envio ao GitHub.
+Evolução futura
+Itens fora da versão 1, a serem planejados em novas sprints: troca de senha para usuário logado, recuperação de senha por e-mail, verificação de e-mail, perfis de acesso, bloqueio após tentativas erradas, login social, autenticação em dois fatores, auditoria e frontend.
