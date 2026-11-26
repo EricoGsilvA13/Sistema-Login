@@ -10,3 +10,5 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["Authorization", "Content-Type"],
 )
+
+#python -m uvicorn app.main:app --reload
