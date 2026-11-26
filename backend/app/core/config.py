@@ -18,5 +18,7 @@ class Settings(BaseSettings):
     db_password: SecretStr
     db_name: str
 
+    cors_origin: list[str] = []
+
 
 settings = Settings() # pyright: ignore[reportCallIssue]
